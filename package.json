@@ -1,0 +1,22 @@
+{
+  "name": "urlshortnerservice",
+  "version": "1.0.0",
+  "description": "service that returns short url for messy and long urls",
+  "license": "ISC",
+  "author": "Humayun Saghir",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.5.0",
+    "nanoid": "^5.1.9",
+    "uuid": "^14.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
