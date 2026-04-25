@@ -1,6 +1,7 @@
 const express = require("express")
 const urlRouter = require("./routes/urlRouter")
 const connectDatabase = require("./connection")
+const createLogs = require("./middlewares/logs")
 
 connectDatabase("mongodb://127.0.0.1:27017/urlShortner")
     .then(() => console.log("Database Connected!"))
@@ -10,6 +11,7 @@ const app = express()
 const PORT = 8000
 
 // middlewares
+app.use(createLogs("./logs.txt"))
 app.use(express.urlencoded({extended : false}))
 app.use(express.json())
 
