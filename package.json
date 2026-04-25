@@ -7,10 +7,11 @@
   "type": "commonjs",
   "main": "app.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "dependencies": {
+    "ejs": "^5.0.2",
     "express": "^5.2.1",
     "mongoose": "^9.5.0",
     "nanoid": "^5.1.9",

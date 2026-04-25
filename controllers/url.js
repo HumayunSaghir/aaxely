@@ -1,9 +1,18 @@
 const urlModel = require("../models/urlModel")
 const { nanoid } = require('nanoid');
 
+// show home page
+async function handleShowHomepage(req, res){
+    const allData = await urlModel.find({})
+    return res.status(200).render("home", {
+        data : allData,
+    })
+}
+
 // function for url creation and returning shorturl
 async function handleShortUrlCreation(req, res){
     const {originalUrl} = req.body
+    const allData = await urlModel.find({})
 
     const generatedId = nanoid(6)
 
@@ -12,7 +21,10 @@ async function handleShortUrlCreation(req, res){
         shortId : generatedId
     })
 
-    return res.status(201).json({status : `your id is ${generatedId}`})
+    return res.status(201).render("home", {
+        id : generatedId,
+        data : allData,
+    })
 
 }
 
@@ -36,23 +48,8 @@ async function handleUrlRedirection(req, res){
 
 }
 
-// analytics for the url -> total clicks
-async function handleUrlAnalytics(req, res){
-    const reqShortId = req.params.id
-
-    const requiredDocument = await urlModel.findOne({shortId : reqShortId})
-
-    // incase id is invalid
-    if(requiredDocument === null){
-        return res.status(404).json({status : "Invalid Id"})
-    }
-
-    return res.status(200).json({totalClicks : `${requiredDocument.totalClicks}`})
-
-}
-
 module.exports = {
+    handleShowHomepage,
     handleShortUrlCreation,
     handleUrlRedirection,
-    handleUrlAnalytics,
 }

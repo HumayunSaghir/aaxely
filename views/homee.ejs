@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aaxely</title>
+</head>
+<body>
+    <h1>aaxely</h1>
+    <h2>Welcome to url shortner service</h2>
+    <!-- little bit of intro should be here that what our app does -->
+
+    <% if (locals.id) { %>
+        <h3>Redirection Link: <a href="http://localhost:8000/url/<%= locals.id %>">http://localhost:8000/url/<%= locals.id %></a></h3>
+    <% } %>
+
+    <form method="post" action="/url">
+        <label for="originalUrl">Enter URL</label>
+        <input type="text" name="originalUrl" placeholder="https://google.com">
+        <button type="submit" >Generate</button>
+    </form>
+
+    <% if (locals.data) { %>
+        <% locals.data.forEach(doc => { %>
+            <h3>Original URL : <%= doc.originalUrl %>, Shortened URL : http://localhost:8000/url/<%= doc.shortId %>, Total Clicks : <%= doc.totalClicks %></h3>
+            <br>
+        <% }) %>
+    <% } %>
+
+    <% if (!locals.data) { %>
+        <p>Add one to generate short url</p>
+    <% } %>
+
+    <!-- features should be here -->
+
+    <!-- how to use should be here -->
+
+    <!-- footer should be here -->
+
+</body>
+</html>
