@@ -1,4 +1,4 @@
-const {Schema, model} = require("mongoose")
+const {Schema, model, mongoose} = require("mongoose")
 
 const urlSchema = new Schema({
     originalUrl : {
@@ -15,6 +15,11 @@ const urlSchema = new Schema({
         type : Number,
         default : 0,
     },
+
+    createdBy : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref : "users",
+    }
 
 }, {timestamps : true})
 

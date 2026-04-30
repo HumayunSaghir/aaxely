@@ -4,6 +4,9 @@ const connectDatabase = require("./connection")
 const createLogs = require("./middlewares/logs")
 const path = require("path")
 const ejs = require("ejs")
+const userRouter = require("./routes/users")
+const cookieParser = require("cookie-parser")
+const checkForToken = require("./middlewares/auth")
 
 
 connectDatabase("mongodb://127.0.0.1:27017/urlShortner")
@@ -21,7 +24,10 @@ app.set("views", path.resolve("./views"))
 app.use(createLogs("./logs.txt"))
 app.use(express.urlencoded({extended : false}))
 app.use(express.json())
+app.use(cookieParser())
 
-app.use("/", urlRouter)
+// router configuration
+app.use("/users", userRouter)
+app.use("/", checkForToken, urlRouter)
 
 app.listen(PORT, () => console.log(`server is listening at port ${PORT}`))

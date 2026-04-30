@@ -3,23 +3,28 @@ const { nanoid } = require('nanoid');
 
 // show home page
 async function handleShowHomepage(req, res){
-    const allData = await urlModel.find({})
+    // get all the urls
+    const allData = await urlModel.find({createdBy : req.user._id})
+
     return res.status(200).render("home", {
         data : allData,
     })
+    
 }
 
 // function for url creation and returning shorturl
 async function handleShortUrlCreation(req, res){
     const {originalUrl} = req.body
-    const allData = await urlModel.find({})
-
+    
     const generatedId = nanoid(6)
-
+    
     await urlModel.create({
         originalUrl : originalUrl,
-        shortId : generatedId
+        shortId : generatedId,
+        createdBy : req.user._id,
     })
+    
+    const allData = await urlModel.find({createdBy : req.user._id})
 
     return res.status(201).render("home", {
         id : generatedId,
