@@ -186,3 +186,5 @@ new request recived at / by method GET
 new request recived at /users/login by method GET
 new request recived at /users/signup by method GET
 new request recived at /users/login by method GET
+new request recived at / by method GET
+new request recived at / by method GET
