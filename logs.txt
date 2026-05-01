@@ -173,3 +173,16 @@ new request recived at /url/9cb5ew by method GET
 new request recived at /url/9cb5ew by method GET
 new request recived at /url/9cb5ew by method GET
 new request recived at / by method GET
+new request recived at / by method GET
+new request recived at /favicon.ico by method GET
+new request recived at /users/login by method POST
+new request recived at / by method GET
+new request recived at /favicon.ico by method GET
+new request recived at / by method GET
+new request recived at / by method GET
+new request recived at / by method GET
+new request recived at / by method GET
+new request recived at / by method GET
+new request recived at /users/login by method GET
+new request recived at /users/signup by method GET
+new request recived at /users/login by method GET

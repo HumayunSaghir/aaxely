@@ -272,8 +272,9 @@
             color: var(--green);
         }
 
-        input[type="email"],
-        input[type="password"] {
+        /* Use a class instead of attribute selectors so the styling
+           survives when the input's type is toggled (password ↔ text). */
+        .form-input {
             width: 100%;
             background: var(--surface2);
             border: 1.5px solid var(--border);
@@ -286,11 +287,16 @@
             transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
         }
 
-        input::placeholder {
+        /* Extra right-side room so visible text never slides under the eye icon */
+        .form-input.has-toggle {
+            padding-right: 44px;
+        }
+
+        .form-input::placeholder {
             color: var(--text-muted);
         }
 
-        input:focus {
+        .form-input:focus {
             border-color: var(--green);
             background: var(--surface3);
             box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.12);
@@ -461,7 +467,7 @@
                                 <polyline points="22,6 12,13 2,6"/>
                             </svg>
                         </span>
-                        <input type="email" name="email" id="email" placeholder="you@example.com" autocomplete="email">
+                        <input class="form-input" type="email" name="email" id="email" placeholder="you@example.com" autocomplete="email">
                     </div>
                 </div>
 
@@ -476,7 +482,7 @@
                                 <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                             </svg>
                         </span>
-                        <input type="password" name="password" id="password" placeholder="Your password" autocomplete="current-password">
+                        <input class="form-input has-toggle" type="password" name="password" id="password" placeholder="Your password" autocomplete="current-password">
                         <button type="button" class="toggle-password" onclick="togglePassword()" aria-label="Toggle password visibility">
                             <svg id="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
@@ -503,7 +509,7 @@
             <a href="#">Terms</a>
             <a href="#">Help</a>
         </div>
-        <span>© 2025 aaxely. All rights reserved.</span>
+        <span>© 2026 aaxely. All rights reserved.</span>
     </footer>
 
     <script>

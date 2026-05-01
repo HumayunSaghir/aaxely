@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const express = require("express")
 const urlRouter = require("./routes/urlRouter")
 const connectDatabase = require("./connection")
@@ -9,7 +11,7 @@ const cookieParser = require("cookie-parser")
 const checkForToken = require("./middlewares/auth")
 
 
-connectDatabase("mongodb://127.0.0.1:27017/urlShortner")
+connectDatabase(process.env.MONGO_URL)
     .then(() => console.log("Database Connected!"))
     .catch(() => console.log("Error in Database Connection!"))
 
@@ -30,4 +32,4 @@ app.use(cookieParser())
 app.use("/users", userRouter)
 app.use("/", checkForToken, urlRouter)
 
-app.listen(PORT, () => console.log(`server is listening at port ${PORT}`))
+app.listen(process.env.PORT, () => console.log(`server is listening at port ${PORT}`))
