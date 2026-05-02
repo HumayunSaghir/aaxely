@@ -21,7 +21,6 @@ A full-stack URL shortening web application built with **Node.js**, **Express**,
 |:---:|:---:|
 | ![Steps](docs/screenshots/steps.png) | ![Mobile](docs/screenshots/mobile.png) |
 
-> Drop your screenshots into `docs/screenshots/` using the filenames above to render them here.
 
 ---
 
