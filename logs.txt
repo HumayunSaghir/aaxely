@@ -1,6 +1,6 @@
 new request recived at /url/analytics/12JGNm by method GET
 new request recived at /url/analytics/12JGNm by method GET
-new request recived at / by method GET
+new request recived at / by method GET.
 new request recived at / by method GET
 new request recived at / by method GET
 new request recived at / by method GET
