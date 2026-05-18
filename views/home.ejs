@@ -665,6 +665,11 @@
             stroke-width: 1.5;
         }
 
+        #logoutText{
+            color: white;
+            text-decoration: none;
+        }
+
         .empty-state p {
             font-size: 0.95rem;
             color: var(--white-40);
@@ -786,7 +791,7 @@
             <span class="nav-badge">Free &amp; Fast</span>
             <button class="logout-btn" id="logoutBtn" type="button">
                 <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                Logout
+                <a id="logoutText" href="/users/logout">Logout</a>
             </button>
         </div>
     </nav>
