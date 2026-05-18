@@ -8,6 +8,9 @@ A full-stack URL shortening web application built with **Node.js**, **Express**,
 ![Express](https://img.shields.io/badge/Express-5.x-000000?logo=express&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-47A248?logo=mongodb&logoColor=white)
 ![License](https://img.shields.io/badge/License-ISC-blue.svg)
+![Railway](https://img.shields.io/badge/Deployed-Railway-0B0D0E?logo=railway&logoColor=white)
+
+**Live:** https://aaxely-production.up.railway.app
 
 ---
 
@@ -21,12 +24,12 @@ A full-stack URL shortening web application built with **Node.js**, **Express**,
 |:---:|:---:|
 | ![Steps](docs/screenshots/steps.png) | ![Mobile](docs/screenshots/mobile.png) |
 
-
 ---
 
 ## Features
 
 - 🔐 **JWT Authentication** — Sign up and log in with secure, cookie-based JWT sessions
+- 🔒 **Password Hashing** — Passwords are hashed with HMAC-SHA256 and a random salt before storage; plain-text passwords are never saved
 - 🔗 **One-Click Shortening** — Generate compact, unique short IDs using `nanoid`
 - 📊 **Click Tracking** — Every redirect increments a per-link click counter
 - 👤 **Per-User Links** — Each user only sees and manages their own URLs
@@ -45,6 +48,7 @@ A full-stack URL shortening web application built with **Node.js**, **Express**,
 | Database | MongoDB + Mongoose |
 | Templating | EJS |
 | Auth | `jsonwebtoken`, `cookie-parser` |
+| Password hashing | Node.js built-in `crypto` (HMAC-SHA256 + salt) |
 | Short ID | `nanoid` |
 | Config | `dotenv` |
 | Dev tooling | `nodemon` |
@@ -112,7 +116,7 @@ urlShortnerService/
 │
 ├── controllers/
 │   ├── url.js              # Home, create short URL, redirect
-│   └── users.js            # Signup & login handlers
+│   └── users.js            # Signup, login & logout handlers
 │
 ├── middlewares/
 │   ├── auth.js             # JWT cookie verification
@@ -120,11 +124,11 @@ urlShortnerService/
 │
 ├── models/
 │   ├── urlModel.js         # URL schema (originalUrl, shortId, totalClicks, createdBy)
-│   └── users.js            # User schema (name, email, password)
+│   └── users.js            # User schema with pre-save password hashing
 │
 ├── routes/
 │   ├── urlRouter.js        # /, /url, /url/:id
-│   └── users.js            # /users/signup, /users/login
+│   └── users.js            # /users/signup, /users/login, /users/logout
 │
 ├── service/
 │   └── auth.js             # createToken / verifyToken helpers
@@ -144,9 +148,10 @@ All non-`/users/*` routes are protected by the JWT middleware. Unauthenticated r
 | Method | Endpoint | Auth | Description |
 |---|---|:---:|---|
 | `GET` | `/users/signup` | — | Render the signup page |
-| `POST` | `/users/signup` | — | Create a new user, set JWT cookie, redirect to `/` |
+| `POST` | `/users/signup` | — | Hash password, create user, set JWT cookie, redirect to `/` |
 | `GET` | `/users/login` | — | Render the login page |
 | `POST` | `/users/login` | — | Validate credentials, set JWT cookie, redirect to `/` |
+| `GET` | `/users/logout` | — | Clear JWT cookie, redirect to login |
 | `GET` | `/` | ✅ | Render the dashboard with the user's links |
 | `POST` | `/url` | ✅ | Create a short URL from `originalUrl` in the request body |
 | `GET` | `/url/:id` | ✅ | Look up `:id`, increment click count, 301-redirect to the original URL |
@@ -167,14 +172,32 @@ The dashboard re-renders with the new short ID (e.g. `/8c2Vu-`) appended to the 
 
 ## How It Works
 
-1. **Sign up / Log in** — Credentials are validated against MongoDB; a JWT signed with `secretKey` is issued and stored in an HTTP cookie named `token`.
-2. **Auth middleware** — On every protected request, `middlewares/auth.js` reads the cookie, verifies the JWT, and attaches the decoded user to `req.user`.
-3. **Shorten** — `nanoid(6)` generates a unique 6-character ID, which is saved alongside the original URL and the user's `_id`.
-4. **Redirect & track** — Visiting `/url/:id` looks up the document, increments `totalClicks`, and issues a 301 redirect to the original URL.
-5. **Logging** — Every incoming request is appended to `logs.txt` by the custom logging middleware.
+1. **Sign up** — Password is hashed using HMAC-SHA256 with a random 16-byte salt (via Node's `crypto` module) inside a Mongoose `pre("save")` hook before the document is stored. The plain-text password never touches the database.
+2. **Log in** — `User.matchPassword(email, password)` retrieves the stored salt, re-hashes the input, and compares it to the stored hash. On match, a JWT signed with `secretKey` is issued and stored in an HTTP cookie named `token`.
+3. **Auth middleware** — On every protected request, `middlewares/auth.js` reads the cookie, verifies the JWT, and attaches the decoded user to `req.user`.
+4. **Shorten** — `nanoid(6)` generates a unique 6-character ID, which is saved alongside the original URL and the user's `_id`.
+5. **Redirect & track** — Visiting `/url/:id` looks up the document, increments `totalClicks`, and issues a 301 redirect to the original URL.
+6. **Logging** — Every incoming request is appended to `logs.txt` by the custom logging middleware.
 
 ---
 
+## Deployment
+
+This project is deployed on **Railway** with a Railway-managed MongoDB instance.
+
+### Deploy your own
+
+1. Push the repo to GitHub
+2. Go to [railway.app](https://railway.app) → **New Project** → **Deploy from GitHub repo**
+3. Inside the project, click **+ New** → **Database** → **MongoDB** (Railway provisions it automatically)
+4. In your Node.js service → **Variables** tab, add:
+   - `MONGO_URL` → reference the `MONGO_URL` variable from the MongoDB service
+   - `secretKey` → any long random secret string
+5. Go to **Settings** → **Networking** → **Generate Domain**
+
+Railway injects `PORT` automatically — do not set it manually.
+
+---
 
 ## Author
 
