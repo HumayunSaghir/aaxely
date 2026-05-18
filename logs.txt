@@ -220,3 +220,13 @@ new request recived at / by method GET
 new request recived at /users/signup by method GET
 new request recived at /users/signup by method POST
 new request recived at / by method GET
+new request recived at /url by method POST
+new request recived at /users/logout by method GET
+new request recived at / by method GET
+new request recived at /users/signup by method GET
+new request recived at /users/signup by method POST
+new request recived at / by method GET
+new request recived at /url by method POST
+new request recived at /url/1wpN3K by method GET
+new request recived at /url by method POST
+new request recived at /url/sRFn6W by method GET

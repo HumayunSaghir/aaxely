@@ -30,20 +30,17 @@ function handleShowLoginPage(req, res){
 async function handleLoginValidation(req, res){
     const {email, password} = req.body
 
-    const reqUser = await userModel.findOne({email : email, password : password})
-
-    if(!reqUser){
-        return res.status(401).render("login", {
-            message : "Incorrect Credentials!"
-        })
+    // using database static function
+    try{
+        const token = await userModel.matchPassword(email, password)
+        res.cookie("token", token).redirect("/")
     }
 
-    // sending token to the client
-    const token = createToken(reqUser)
-    res.cookie("token", token)
-    return res.status(201).redirect("/")
-
-
+    catch(err){
+        return res.render("signin", {
+            message : err.message
+        })
+    }
 }
 
 async function handleLogoutFunctionality(req, res){

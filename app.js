@@ -16,7 +16,7 @@ connectDatabase(process.env.MONGO_URL)
     .catch(() => console.log("Error in Database Connection!"))
 
 const app = express()
-const PORT = 8000
+const PORT = process.env.PORT || 8000
 
 // templating engine
 app.set("view engine", "ejs")
@@ -32,4 +32,4 @@ app.use(cookieParser())
 app.use("/users", userRouter)
 app.use("/", checkForToken, urlRouter)
 
-app.listen(process.env.PORT, () => console.log(`server is listening at port ${PORT}`))
+app.listen(PORT, () => console.log(`server is listening at port ${PORT}`))

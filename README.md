@@ -63,7 +63,7 @@ A full-stack URL shortening web application built with **Node.js**, **Express**,
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/<your-username>/urlShortnerService.git
+git clone https://github.com/HumayunSaghir/urlShortnerService.git
 cd urlShortnerService
 
 # 2. Install dependencies
@@ -181,9 +181,3 @@ The dashboard re-renders with the new short ID (e.g. `/8c2Vu-`) appended to the 
 **Humayun Saghir**
 
 If you find this project useful, consider giving it a ⭐ on GitHub!
-
----
-
-## License
-
-Released under the **ISC License**. See [`LICENSE`](LICENSE) for details.
